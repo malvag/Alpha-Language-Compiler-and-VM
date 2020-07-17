@@ -17,21 +17,21 @@ CYAN="\033[0;36m"
 NC="\033[0m" # No Color
 
 all: clean_start $(DIR) out $(EXECOBJ) avm_exec
-	@echo -e -n ${NC}
+	@echo ${NC}
 	@echo "========================== Compilation_Succesfull =========================="
 	
 
 
 out: $(OBJECTS) writer.o parser.o scanner.o 
-	@echo -e -n ${CYAN}
+	@echo ${CYAN}
 	$(CC) $(OBJECTS) writer.o parser.o scanner.o  $(CCFLAGS)
-	@echo -e -n ${NC}
+	@echo ${NC}
 	
 
 $(OBJ)/%.o: $(STRUCTS)/%.c 
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(STRUCTS) -c $< -o $@
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 $(DIR):
 	mkdir $@
@@ -43,76 +43,76 @@ $(EXECOBJ):
 # 	$(CC) $(CCFLAGS) $(LIBS) parser.c scanner.c
 
 $(EXECOBJ)/%.o: $(EXEC)/%.c 
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(AVM) -c $< -o $@
-	@echo -e -n ${NC} 
+	@echo ${NC} 
 
 avm_exec:  reader.o $(EXECOBJECTS) avm.o 
 	$(CC) $(EXECOBJECTS) reader.o avm.o -lm $(CCFLAGS)
 
 reader.o: $(AVM)/reader.c
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(STRUCTS) -I$(AVM) -c $< -o $@
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 avm.o: $(AVM)/avm.c
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(STRUCTS) -I$(AVM) -c $< -o $@
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 writer.o: $(AVM)/writer.c
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(STRUCTS) -I$(AVM) -c $< -o $@
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 parser.o: parser.c
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(STRUCTS) -c $< -o $@
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 scanner.o: scanner.c
-	@echo -e -n ${GREY}
+	@echo ${GREY}
 	$(CC) -I$(STRUCTS) -c $< -o $@
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 parser.c: parser.y
-	@echo -e -n ${CYAN}
+	@echo ${CYAN}
 	bison --yacc --defines=parser.h --output=parser.c -v parser.y -Wnone
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 scanner.c: scanner.l
-	@echo -e -n ${CYAN}
+	@echo ${CYAN}
 	flex -o scanner.c scanner.l
-	@echo -e -n ${NC}
+	@echo ${NC}
 
 clean_start:
-	@echo -e -n ${NC}
-	clear
-	@echo "=========================== Compilation_Started ==========================="
-	@echo "                                                                           "
-	@echo "                       ___           ___           ___                     "
-	@echo "                      /\  \         /\__\         /\__\                    "
-	@echo "                     /::\  \       /:/  /        /::|  |                   "
-	@echo "                    /:/\:\  \     /:/  /        /:|:|  |                   "
-	@echo "                   /::\~\:\  \   /:/__/  ___   /:/|:|__|__                 "
-	@echo "                  /:/\:\ \:\__\  |:| |  /\__\ /:/ |::::\__\\               "
-	@echo "                  \/__\:\/:/  /  |:| | /:/  / \/__/~~/:/  /                "
-	@echo "                       \::/  /   |:|_\`/:/  /        /:/  /                "
-	@echo "                       /:/  /     \::::/__/        /:/  /                  "
-	@echo "                      /:/  /       ~~~~           /:/  /                   "
-	@echo "                      \/__/                       \/__/                    "
-	@echo "                                                                           "
-	@echo "                       ALPHA LANGUAGE VIRTUAL MACHINE                      "
-	@echo "                                                                           "
-	@echo "==========================================================================="
+	# @echo ${NC}
+	# clear
+	# @echo "=========================== Compilation_Started ==========================="
+	# @echo "                                                                           "
+	# @echo "                       ___           ___           ___                     "
+	# @echo "                      /\  \         /\__\         /\__\                    "
+	# @echo "                     /::\  \       /:/  /        /::|  |                   "
+	# @echo "                    /:/\:\  \     /:/  /        /:|:|  |                   "
+	# @echo "                   /::\~\:\  \   /:/__/  ___   /:/|:|__|__                 "
+	# @echo "                  /:/\:\ \:\__\  |:| |  /\__\ /:/ |::::\__\\               "
+	# @echo "                  \/__\:\/:/  /  |:| | /:/  / \/__/~~/:/  /                "
+	# @echo "                       \::/  /   |:|_\`/:/  /        /:/  /                "
+	# @echo "                       /:/  /     \::::/__/        /:/  /                  "
+	# @echo "                      /:/  /       ~~~~           /:/  /                   "
+	# @echo "                      \/__/                       \/__/                    "
+	# @echo "                                                                           "
+	# @echo "                       ALPHA LANGUAGE VIRTUAL MACHINE                      "
+	# @echo "                                                                           "
+	# @echo "==========================================================================="
 
 	
 	
 
-	$(RM) obj/*.o parser.o scanner.o scanner.c parser.c parser.h parser.output writer.o reader.o
+	$(RM) -f obj/*.o parser.o scanner.o scanner.c parser.c parser.h parser.output writer.o reader.o
 
 clean:
-	@echo -e -n ${NC}
+	@echo ${NC}
 	$(RM) obj/*.o parser.o scanner.o scanner.c parser.c parser.h parser.output writer.o reader.o reader *.abc
 	$(RM) tests_4h_5h/*.abc
 	rmdir obj/
